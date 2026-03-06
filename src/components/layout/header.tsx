@@ -1,10 +1,11 @@
 import { getCart } from "@/lib/actions/cart";
-import { ShoppingCart, Store } from "lucide-react";
+import { getCurrentUser } from "@/lib/actions/auth";
+import { ShoppingCart, Store, User } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 
 export async function Header() {
-  const cart = await getCart();
+  const [cart, user] = await Promise.all([getCart(), getCurrentUser()]);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-neutral-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
@@ -36,6 +37,19 @@ export async function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
+          {user ? (
+            <Button asChild variant="ghost" size="sm" className="hidden md:flex gap-1">
+              <Link href="/account">
+                <User className="h-4 w-4" />
+                <span>{user.name.split(" ")[0] || user.name}</span>
+              </Link>
+            </Button>
+          ) : (
+            <Button asChild variant="ghost" size="sm" className="hidden md:flex">
+              <Link href="/login">Sign In</Link>
+            </Button>
+          )}
+
           <Button asChild variant="ghost" size="icon" className="relative">
             <Link href="/cart">
               <ShoppingCart className="h-5 w-5" />
