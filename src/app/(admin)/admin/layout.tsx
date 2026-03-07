@@ -18,6 +18,9 @@ export default function AdminLayout({
           {[
             { href: "/admin", label: "Dashboard" },
             { href: "/admin/products", label: "Products" },
+            { href: "/admin/categories", label: "Categories" },
+            { href: "/admin/orders", label: "Orders" },
+            { href: "/admin/customers", label: "Customers" },
           ].map((item) => (
             <Link
               key={item.href}

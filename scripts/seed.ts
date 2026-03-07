@@ -80,13 +80,26 @@ async function seed() {
   console.log("🌱 Seeding database...");
 
   await db.delete(schema.products);
+  await db.delete(schema.categories);
+
+  const seedCategories = [
+    { name: "Clothing", slug: "clothing", description: "Apparel and fashion items" },
+    { name: "Electronics", slug: "electronics", description: "Gadgets and electronic devices" },
+    { name: "Home & Garden", slug: "home-garden", description: "Home decor and garden supplies" },
+    { name: "Sports", slug: "sports", description: "Sports and fitness equipment" },
+  ];
+
+  for (const category of seedCategories) {
+    await db.insert(schema.categories).values(category);
+    console.log(`  ✓ Category: ${category.name}`);
+  }
 
   for (const product of seedProducts) {
     await db.insert(schema.products).values(product);
     console.log(`  ✓ ${product.name}`);
   }
 
-  console.log(`\n✅ Seeded ${seedProducts.length} products successfully.`);
+  console.log(`\n✅ Seeded ${seedCategories.length} categories and ${seedProducts.length} products successfully.`);
   process.exit(0);
 }
 
